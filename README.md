@@ -157,8 +157,8 @@ Copy and paste this configuration:
 ```
 allow-hotplug can0
 iface can0 can static
-  bitrate 1000000
-  up ifconfig $IFACE txqueuelen 1024
+    bitrate 1000000
+    up ip link set $IFACE txqueuelen 128
 ```
 
 Press `CTRL+X` to exit, `Y` to confirm and `ENTER` to save. Reboot your system with `sudo reboot now`.
