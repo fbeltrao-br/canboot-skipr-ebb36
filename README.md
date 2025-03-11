@@ -210,7 +210,7 @@ sleep 1
 systemctl stop klipper
 ```
 
-Query your CAN UUIDs with `cd ~/CanBoot/scripts && python3 flash_can.py -i can0 -q`:
+Query your CAN UUIDs with `cd ~/katapult/scripts && python3 flash_can.py -i can0 -q`:
 ```
 Resetting all bootloader node IDs...
 Checking for Katapult nodes...
