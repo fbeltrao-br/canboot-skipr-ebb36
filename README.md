@@ -170,7 +170,6 @@ ip -details -statistics link show can0
 
 ## 6 - Get your MCUs UUIDs
 Make sure your MCUs UUIDs are not listed in any printer configuration file, or you won't be able to retrieve any node UUID.
-
 ```
 ~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0
 ```
@@ -201,3 +200,26 @@ sensor_mcu: EBBCan
 min_temp: -40
 max_temp: 85
 ```
+## 8 - Updating firmware thru CAN interface
+To be able to query all the CAN UUIDs, you have to put the printer in emergency mode by issuing a `M112` command, clicking in `FIRMWARE RESTART` and stopping Klipper service within the menus. Doing it manually is bothersome and prone to errors, but you can do it all at once in the terminal pasting all the commands below:
+```
+echo M112 > ~/printer_data/comms/klippy.serial 
+sleep 1
+echo FIRMWARE_RESTART > ~/printer_data/comms/klippy.serial
+sleep 1
+systemctl stop klipper
+```
+
+Query your CAN UUIDs with `cd ~/CanBoot/scripts && python3 flash_can.py -i can0 -q`:
+```
+Resetting all bootloader node IDs...
+Checking for Katapult nodes...
+Detected UUID: 06727e55c686, Application: Klipper
+Detected UUID: 4c61f6fc8b08, Application: Klipper
+Query Complete
+```
+
+Now you can flash your device firmware replacing the UUID and PATH:
+```
+python3 flash_can.py -i can0 -u UUID -f PATH
+``` 
